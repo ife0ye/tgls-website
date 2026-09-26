@@ -200,14 +200,14 @@ h1 em, h2 em, h3 em {
 #navbar {
   position: fixed; inset: 0 0 auto 0; z-index: 100;
   height: var(--nav-h);
-  background: rgba(255, 255, 255, 0.82);
-  -webkit-backdrop-filter: saturate(180%) blur(16px);
-  backdrop-filter: saturate(180%) blur(16px);
+  /* Solid on purpose: a translucent, saturated backdrop-filter picked up the
+     hero photo's colors and shifted tint on every slide change and page load,
+     and Safari repaints backdrop-filter inconsistently during navigation. */
+  background: var(--paper);
   border-bottom: 1px solid transparent;
-  transition: border-color 240ms ease, box-shadow 240ms ease, background-color 240ms ease;
+  transition: border-color 240ms ease, box-shadow 240ms ease;
 }
 #navbar.scrolled {
-  background: rgba(255, 255, 255, 0.9);
   border-bottom-color: var(--line);
   box-shadow: 0 8px 24px -18px rgba(11, 27, 51, 0.35);
 }
@@ -261,9 +261,7 @@ h1 em, h2 em, h3 em {
   position: absolute; top: calc(100% + 8px); left: 50%;
   min-width: 220px;
   padding: 0.375rem;
-  background: rgba(255, 255, 255, 0.96);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
+  background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
@@ -334,9 +332,7 @@ h1 em, h2 em, h3 em {
   position: fixed; inset: 0; z-index: 200;
   display: flex; flex-direction: column; justify-content: center;
   padding: calc(var(--nav-h) + 1rem) var(--gutter) 2.5rem;
-  background: rgba(4, 17, 41, 0.97);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
+  background: var(--navy-950);
   opacity: 0;
   visibility: hidden;
   transition: opacity 240ms ease, visibility 0s linear 240ms;
@@ -381,7 +377,6 @@ h1 em, h2 em, h3 em {
 /* Nav sitting on the dark overlay when open */
 body.menu-open #navbar {
   background: transparent; border-bottom-color: transparent; box-shadow: none;
-  -webkit-backdrop-filter: none; backdrop-filter: none;
   z-index: 210;
 }
 body.menu-open .nav-logo { opacity: 0; pointer-events: none; }
@@ -1623,9 +1618,7 @@ footer {
   display: none;
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
   padding: 0.75rem var(--gutter) calc(0.75rem + env(safe-area-inset-bottom));
-  background: rgba(4, 17, 41, 0.86);
-  -webkit-backdrop-filter: saturate(180%) blur(16px);
-  backdrop-filter: saturate(180%) blur(16px);
+  background: var(--navy-950);
   border-top: 1px solid var(--line-dark);
   transform: translateY(100%);
   transition: transform 400ms var(--ease-drawer);
@@ -1641,7 +1634,7 @@ footer {
    the full-bleed photo empty on the right. Widen both a step, short of
    letting body text stretch to an uncomfortable line length. */
 @media (min-width: 1600px) {
-  :root { --container: 1400px; }
+  :root { --container: min(80vw, 1760px); }
   .hero-content { max-width: 54rem; }
   .page-hero-content > * { max-width: 52rem; }
 }
@@ -1758,12 +1751,6 @@ footer {
   [data-clone] { display: none !important; }
   .logo-track-wrapper { -webkit-mask-image: none; mask-image: none; }
   .hero-dot.active::after { animation: none; transform: scaleX(1); }
-}
-
-@media (prefers-reduced-transparency: reduce) {
-  #navbar, #navbar.scrolled { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; }
-  .nav-dropdown-menu { background: #fff; }
-  .sticky-mobile-cta { background: var(--navy-950); }
 }
 
 @media print {

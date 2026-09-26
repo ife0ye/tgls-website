@@ -110,18 +110,54 @@
       });
     });
 
-    // ── Marquees: clone the set once so the loop is seamless ──
-    document.querySelectorAll('.ticker-track, .logo-track').forEach(function (track) {
-      var items = Array.prototype.slice.call(track.children);
-      items.forEach(function (item) {
-        var clone = item.cloneNode(true);
-        clone.setAttribute('aria-hidden', 'true');
-        clone.setAttribute('data-clone', '');
-        clone.querySelectorAll('img').forEach(function (img) { img.alt = ''; });
-        track.appendChild(clone);
+    // ── Marquees: the track slides by exactly half its width, so each half must
+    // be at least as wide as the viewport or the loop exposes a blank gap on
+    // wide screens. Clone as many sets as needed; scale duration so speed is constant.
+    (function () {
+      var tracks = [];
+      document.querySelectorAll('.ticker-track, .logo-track').forEach(function (track) {
+        tracks.push({
+          el: track,
+          originals: Array.prototype.slice.call(track.children),
+          pxPerSec: track.classList.contains('logo-track') ? 28 : 40
+        });
       });
-      track.classList.add('is-ready');
-    });
+
+      function fill(t) {
+        var track = t.el;
+        track.querySelectorAll('[data-clone]').forEach(function (n) { n.remove(); });
+        var setWidth = track.scrollWidth;
+        var viewWidth = track.parentElement.clientWidth;
+        if (!setWidth || !viewWidth) return;
+        var setsPerHalf = Math.max(1, Math.ceil(viewWidth / setWidth));
+        var clonesNeeded = setsPerHalf * 2 - 1;
+        for (var c = 0; c < clonesNeeded; c++) {
+          t.originals.forEach(function (item) {
+            var clone = item.cloneNode(true);
+            clone.setAttribute('aria-hidden', 'true');
+            clone.setAttribute('data-clone', '');
+            clone.querySelectorAll('img').forEach(function (img) { img.alt = ''; });
+            track.appendChild(clone);
+          });
+        }
+        track.style.animationDuration = (setWidth * setsPerHalf / t.pxPerSec).toFixed(1) + 's';
+        track.classList.add('is-ready');
+      }
+
+      tracks.forEach(fill);
+
+      var resizeTimer;
+      var lastWidth = window.innerWidth;
+      window.addEventListener('resize', function () {
+        if (window.innerWidth === lastWidth) return;
+        lastWidth = window.innerWidth;
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () { tracks.forEach(fill); }, 200);
+      });
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () { tracks.forEach(fill); });
+      }
+    })();
 
     // ── Scroll reveal with per-batch stagger ──
     (function () {
