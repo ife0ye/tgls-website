@@ -19,7 +19,7 @@
       var rules = document.createElement('script');
       rules.type = 'speculationrules';
       rules.textContent = JSON.stringify({
-        prerender: [{ where: { href_matches: '/*.html' }, eagerness: 'moderate' }]
+        prerender: [{ where: { href_matches: '/*' }, eagerness: 'moderate' }]
       });
       document.head.appendChild(rules);
       return;
@@ -28,7 +28,7 @@
     function maybePrefetch(e) {
       var a = e.target.closest && e.target.closest('a');
       if (!a || !a.href || a.hostname !== location.hostname) return;
-      if (!/\.html$/.test(a.pathname) || a.pathname === location.pathname) return;
+      if (/\.\w+$/.test(a.pathname) || a.pathname === location.pathname) return;
       if (prefetched.has(a.href)) return;
       prefetched.add(a.href);
       var link = document.createElement('link');

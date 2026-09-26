@@ -6,15 +6,18 @@ build step and no third-party requests, deployed on Vercel.
 
 ## Setup required before launch
 
-The Careers and Vendors forms submit through [Web3Forms](https://web3forms.com), which
-delivers file uploads (CVs, CAC documents, tax clearance, etc.) by email. Both forms carry
-a placeholder access key and show a "not connected yet" message until it's set:
+The Careers and Vendors forms submit through [Web3Forms](https://web3forms.com). Both
+forms carry a placeholder access key (`YOUR_WEB3FORMS_ACCESS_KEY` in `careers.html` and
+`vendors.html`) and show a "not connected yet" message until a real key is set.
 
-1. Get a free access key at [web3forms.com](https://web3forms.com) (just needs an email
-   address to verify, no account or password).
-2. In `careers.html` and `vendors.html`, replace `YOUR_WEB3FORMS_ACCESS_KEY` in the
-   hidden `access_key` input with the real key.
-3. Submit each form once to confirm the email arrives.
+**File attachments (CVs, CAC certificates, tax clearance, etc.) require a paid Web3Forms
+plan.** The free plan delivers the text fields only. Decide on a plan before launch, then:
+
+1. Create the access key at [web3forms.com](https://web3forms.com) using the inbox that
+   should receive submissions. The key is emailed to that inbox.
+2. Replace `YOUR_WEB3FORMS_ACCESS_KEY` in both forms with the real key. It is designed to
+   be public, so it's safe in the HTML.
+3. Submit each form once, with an attachment, and confirm the email and file arrive.
 
 ## Project layout
 
@@ -43,13 +46,13 @@ The nav and footer markup is repeated in every page, so change all ten files (in
 ## Running locally
 
 ```sh
-python3 -m http.server 8000
-# open http://localhost:8000
+npx serve .
+# open http://localhost:3000
 ```
 
-No dependencies, no build, no install. A VS Code Live Server-style extension works too.
-Icons need the page served over HTTP (not opened as a file) because they load from
-`icons.svg`.
+Use `serve` (needs Node.js) rather than VS Code Live Server or `python3 -m http.server`.
+The site uses clean URLs (`/services`, not `/services.html`) and only `serve`, like
+Vercel, resolves those, so links 404 in the other two. No build and no install beyond that.
 
 ## Conventions
 
@@ -60,6 +63,10 @@ changed.
 - **Design tokens** live in `:root` in `styles.css`: navy scale, blue accents, ink text
   greys, paper backgrounds, and `--ease-out` for motion. Size things in `rem` so they
   scale up on large monitors (the root font size grows above 1600px wide).
+- **Links between pages** use clean root-relative paths: `href="/services"`, and
+  `href="/"` for home. Vercel (`cleanUrls` in `vercel.json`) serves `services.html` at
+  `/services` and 308-redirects old `.html` links there. Don't link to `.html` files;
+  it works, but costs every visitor an extra redirect.
 - **Buttons:** `.btn-primary` (navy, for light backgrounds), `.btn-cta-primary` (white,
   for dark backgrounds), `.btn-outline` (outline, for dark backgrounds).
 - **Icons:** `<svg class="icon" aria-hidden="true"><use href="icons.svg#map-pin"></use></svg>`.
