@@ -414,6 +414,12 @@ body.menu-open .nav-logo { opacity: 0; pointer-events: none; }
   opacity: 1;
   transform: scale(1);
 }
+/* Gate the first slide's reveal behind the intro sequence instead of letting it
+   pop in the instant the browser finishes decoding it, mid-paint, uncoordinated
+   with everything else. A fixed, blurred navbar sits on top of this image, so an
+   abrupt pop reads as the navbar itself flashing a different color for a moment. */
+.js #hero .hero-slide.active { opacity: 0; }
+.js.is-loaded #hero .hero-slide.active { opacity: 1; }
 .hero-scrim {
   position: absolute; inset: 0; z-index: -1;
   background:
@@ -706,6 +712,7 @@ main { display: block; }
   position: absolute; inset: -8% 0 -8% 0; z-index: -2;
   background-size: cover; background-position: center;
   will-change: transform;
+  transition: opacity 900ms ease;
 }
 .page-hero-overlay {
   position: absolute; inset: 0; z-index: -1;
@@ -739,6 +746,8 @@ main { display: block; }
 .js .page-hero .line > span { transform: translateY(105%); }
 .js .page-hero .page-hero-eyebrow,
 .js .page-hero .page-hero-sub { opacity: 0; transform: translateY(14px); }
+.js .page-hero-media { opacity: 0; }
+.js.is-loaded .page-hero-media { opacity: 1; }
 .js.is-loaded .page-hero .line > span {
   transform: none;
   transition: transform 900ms var(--ease-out);
