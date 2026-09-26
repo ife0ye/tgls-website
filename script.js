@@ -354,13 +354,75 @@
     })();
 
     // ── File inputs: show the chosen file name ──
+    var MAX_FILE_BYTES = 5 * 1024 * 1024;
     document.querySelectorAll('input[type="file"]').forEach(function (input) {
       input.addEventListener('change', function () {
         var nameEl = document.getElementById(input.id + '-name');
         var has = input.files && input.files.length;
-        if (nameEl) nameEl.textContent = has ? input.files[0].name : 'No file chosen';
+        if (has && input.files[0].size > MAX_FILE_BYTES) {
+          input.setCustomValidity('Please choose a file under 5MB.');
+          if (nameEl) nameEl.textContent = input.files[0].name + ' (too large, max 5MB)';
+        } else {
+          input.setCustomValidity('');
+          if (nameEl) nameEl.textContent = has ? input.files[0].name : 'No file chosen';
+        }
         var wrap = input.closest('.file-upload-wrapper');
         if (wrap) wrap.classList.toggle('has-file', !!has);
+      });
+    });
+
+    // ── Form submission: send via Web3Forms so file uploads actually arrive ──
+    // (a plain mailto: form silently drops attachments and often opens nothing on mobile)
+    document.querySelectorAll('form[data-form-endpoint]').forEach(function (form) {
+      var status = form.querySelector('.form-status');
+      var submitBtn = form.querySelector('.btn-form-submit');
+
+      function setStatus(kind, message) {
+        if (!status) return;
+        status.textContent = message;
+        status.className = 'form-status is-visible ' + (kind === 'success' ? 'is-success' : 'is-error');
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!form.reportValidity()) return;
+
+        // Honeypot: a bot fills every field, including this hidden one; a human never sees it
+        var honeypot = form.querySelector('.form-honeypot');
+        if (honeypot && honeypot.value) return;
+
+        var accessKey = form.querySelector('input[name="access_key"]');
+        if (!accessKey || !accessKey.value || accessKey.value === 'YOUR_WEB3FORMS_ACCESS_KEY') {
+          setStatus('error', 'This form is not connected yet. Please email your details directly using the address above.');
+          return;
+        }
+
+        submitBtn.disabled = true;
+        if (status) status.className = 'form-status';
+
+        fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: new FormData(form)
+        })
+          .then(function (res) { return res.json(); })
+          .then(function (data) {
+            submitBtn.disabled = false;
+            if (data.success) {
+              setStatus('success', 'Thank you, your submission has been received. Our team will be in touch shortly.');
+              form.reset();
+              form.querySelectorAll('.file-upload-wrapper').forEach(function (wrap) {
+                wrap.classList.remove('has-file');
+                var name = wrap.querySelector('.file-upload-name');
+                if (name) name.textContent = 'No file chosen';
+              });
+            } else {
+              setStatus('error', 'Something went wrong sending your submission. Please try again or email us directly.');
+            }
+          })
+          .catch(function () {
+            submitBtn.disabled = false;
+            setStatus('error', 'Network error. Please check your connection and try again.');
+          });
       });
     });
   });

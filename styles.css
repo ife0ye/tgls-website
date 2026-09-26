@@ -289,7 +289,8 @@ h1 em, h2 em, h3 em {
   transition: opacity 160ms ease, transform 180ms var(--ease-out), visibility 0s;
 }
 .nav-dropdown-menu a {
-  display: block;
+  display: flex; align-items: center;
+  min-height: 44px;
   padding: 0.625rem 0.75rem;
   font-size: 0.9rem; font-weight: 500;
   color: var(--ink-2); text-decoration: none;
@@ -476,11 +477,12 @@ body.menu-open .nav-logo { opacity: 0; pointer-events: none; }
 .hero-slide-dots { display: flex; gap: 6px; }
 .hero-dot {
   position: relative;
-  width: 28px; height: 20px;
+  width: 28px; height: 44px;
+  display: flex; align-items: center;
   background: none; border: 0; cursor: pointer;
 }
 .hero-dot::before, .hero-dot::after {
-  content: ''; position: absolute; left: 0; right: 0; top: 9px; height: 2px; border-radius: 2px;
+  content: ''; position: absolute; left: 0; right: 0; top: 50%; margin-top: -1px; height: 2px; border-radius: 2px;
 }
 .hero-dot::before { background: rgba(255, 255, 255, 0.24); }
 .hero-dot::after {
@@ -602,7 +604,7 @@ body.menu-open .nav-logo { opacity: 0; pointer-events: none; }
 }
 
 /* ==========================================================================
-   Sections — shared
+   Sections, shared
    ========================================================================== */
 main { display: block; }
 
@@ -1467,7 +1469,7 @@ main { display: block; }
 .file-upload-label {
   display: inline-flex; align-items: center; gap: 0.5rem;
   flex-shrink: 0;
-  height: 36px; padding: 0 0.875rem;
+  height: 40px; padding: 0 0.875rem;
   font-size: 0.875rem; font-weight: 600;
   color: var(--navy-800);
   background: var(--paper);
@@ -1529,6 +1531,35 @@ main { display: block; }
 }
 .btn-form-submit { min-height: 52px; padding-inline: 1.75rem; }
 .btn-form-submit i { font-size: 0.875rem; }
+.btn-form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-form-submit .fa-spinner { display: none; }
+.btn-form-submit:disabled .fa-spinner { display: inline-block; animation: spin 800ms linear infinite; }
+.btn-form-submit:disabled .fa-paper-plane { display: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.form-honeypot {
+  position: absolute;
+  width: 1px; height: 1px;
+  clip-path: inset(50%);
+  overflow: hidden; white-space: nowrap;
+  opacity: 0;
+}
+
+.form-status {
+  display: none;
+  align-items: center;
+  gap: 0.625rem;
+  max-width: 34rem;
+  margin: 1.25rem auto 0;
+  padding: 0.875rem 1.125rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem; font-weight: 500;
+  text-align: left;
+}
+.form-status.is-visible { display: flex; }
+.form-status.is-success { background: rgba(21, 128, 61, 0.1); color: var(--success); }
+.form-status.is-error { background: rgba(194, 65, 12, 0.1); color: #c2410c; }
+
 .form-note {
   max-width: 34rem;
   margin: 1.25rem auto 0;
@@ -1674,6 +1705,18 @@ footer {
 
 @media (max-width: 380px) {
   .nav-logo-text { display: none; }
+}
+
+/* Short/landscape viewports (phones rotated sideways): a full-height hero
+   squeezes headline, stats, and controls into too little vertical space */
+@media (max-height: 500px) and (orientation: landscape) {
+  #hero { min-height: auto; }
+  .hero-inner { padding-top: calc(var(--nav-h) + 1.25rem); padding-bottom: 1.25rem; }
+  .hero-content { margin-bottom: 1.25rem; }
+  .hero-headline { font-size: clamp(2rem, 6vw, 3rem); }
+  .hero-sub { margin-bottom: 1.25rem; }
+  .hero-footer { flex-direction: row; align-items: center; padding-top: 1rem; }
+  .page-hero { min-height: auto; padding-top: calc(var(--nav-h) + 1.5rem); padding-bottom: 1.5rem; }
 }
 
 /* ==========================================================================

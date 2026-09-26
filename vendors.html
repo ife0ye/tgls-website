@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Vendors &amp; Partners — Total Global &amp; Logistics Services Ltd</title>
+<title>Vendors &amp; Partners | Total Global &amp; Logistics Services Ltd</title>
 <meta name="description" content="We value strong relationships with reliable vendors, suppliers, and service partners who share our commitment to quality, professionalism, and timely service delivery.">
 <meta name="theme-color" content="#0a2a5e">
 <link rel="icon" type="image/png" href="Images/logo.png?v=2">
@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
 <link rel="stylesheet" href="styles.css">
 <script defer src="script.js"></script>
 </head>
@@ -224,7 +224,11 @@
       <h2 class="section-heading">Vendor Registration Form</h2>
       <p class="section-sub">Complete the form below or send your company profile and supporting documents to <a href="mailto:totalgloballogisticsltd@gmail.com">totalgloballogisticsltd@gmail.com</a></p>
     </div>
-    <form class="tgls-form reveal" id="vendor-form" action="mailto:totalgloballogisticsltd@gmail.com" method="POST" enctype="multipart/form-data">
+    <form class="tgls-form reveal" id="vendor-form" data-form-endpoint>
+      <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+      <input type="hidden" name="subject" value="New Vendor Registration: TGLS">
+      <input type="hidden" name="from_name" value="TGLS Vendor Registration Form">
+      <input type="text" name="company_website_url" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
 
       <div class="form-section-label-inner">Company Information</div>
       <div class="form-group-row">
@@ -354,8 +358,9 @@
       </div>
 
       <div class="form-submit">
-        <button type="submit" class="btn-form-submit">Submit Vendor Registration <i class="fas fa-paper-plane" aria-hidden="true"></i></button>
+        <button type="submit" class="btn-form-submit"><i class="fas fa-spinner" aria-hidden="true"></i> <span>Submit Vendor Registration</span> <i class="fas fa-paper-plane" aria-hidden="true"></i></button>
         <p class="form-note">After submission, your documents will be reviewed by our team. You will be notified upon completion of the review. Thank you for your interest in partnering with TGLS.</p>
+        <div class="form-status" role="status" aria-live="polite"></div>
       </div>
     </form>
   </div>
@@ -390,7 +395,7 @@
       </nav>
     </div>
     <div class="footer-bottom">
-      <span>&copy; 2026 TGLS &mdash; All Rights Reserved | Incorporated 2005</span>
+      <span>&copy; 2026 TGLS. All Rights Reserved | Incorporated 2005</span>
       <span class="footer-copy">Licensed: NMDPRA &middot; NUPRC</span>
     </div>
   </div>

@@ -1,49 +1,29 @@
-# TGLS — Total Global & Logistics Services Ltd
+# TGLS, Total Global & Logistics Services Ltd
 
 Company website for an oil & gas logistics operator in Nigeria. Static HTML/CSS/JS,
 no build step, deployed on Vercel.
 
-## ⚠️ Missing files — need restoring
+## Setup required before launch
 
-Lost in an accidental Finder deletion on **22 September 2026**. Not recoverable locally:
-not in the macOS Trash, no Spotlight match, no Time Machine backup or APFS snapshot.
-All site code survived — the losses are images only.
+The Careers and Vendors forms submit through [Web3Forms](https://web3forms.com) so file
+uploads (CVs, CAC documents, tax clearance, etc.) actually get delivered by email. Both
+forms currently carry a placeholder access key and will show a friendly "not connected
+yet" message until it's set:
 
-**Where to look:** iCloud Drive → **Recently Deleted** (Finder sidebar, or iCloud.com →
-Drive). iCloud keeps deleted files for **30 days**, so this window closes around
-**22 October 2026**. Also worth checking: the original brand pack, designer emails, or
-another device.
+1. Get a free access key at [web3forms.com](https://web3forms.com) (just needs an email
+   address to verify, no account or password).
+2. In `careers.html` and `vendors.html`, replace `YOUR_WEB3FORMS_ACCESS_KEY` in the
+   hidden `access_key` input with the real key.
+3. Submit each form once to confirm the email arrives.
 
-### Breaks the live site
-
-- [x] **`Images/NNPC Logo.png`** — restored (492 × 302 PNG). Client logo carousel on
-  `index.html` and `clients.html` now resolves correctly.
-
-### Low priority — not used by the live site
-
-Pre-compression originals from `Images/_originals/` (excluded from deploys via
-`.vercelignore`). The compressed `.jpg` files the site actually loads are all present,
-so losing these only costs the higher-quality sources.
-
-- [ ] `Carousel Image 1.png` … `Carousel Image 7.png`
-- [ ] `NNPC Logo.png` (original, higher-res source — the live-size copy is restored above)
-- [ ] `OMS logo.png`
-
-Still intact in `_originals/`: `logo.png`, `Renaissance logo.png`,
-`westafricaoffshoreserviceslogo.jpeg`.
-
-## Other known issue
-
-The Careers and Vendors forms use `action="mailto:"` with file uploads. This does not
-work in browsers — submissions and CV attachments never arrive, while the visitor
-believes they applied. Needs a form backend (Formspree, Web3Forms or similar) before
-launch.
+Until that's done, both forms still validate and show a clear status message; they just
+won't send anywhere.
 
 ## Pages
 
 | File | Page |
 | --- | --- |
-| `index.html` | Home — hero slideshow, ticker, logo marquee, overview cards |
+| `index.html` | Home, hero slideshow, ticker, logo marquee, overview cards |
 | `services.html` | Six service offerings |
 | `about.html` | Company background |
 | `mission-values.html` | Mission, vision, core values |
@@ -62,7 +42,21 @@ python3 -m http.server 8000
 # open http://localhost:8000
 ```
 
-No dependencies, no build, no install.
+No dependencies, no build, no install. A VS Code Live Server-style extension works too.
+
+## Security notes
+
+- Form submissions go through Web3Forms over HTTPS, with a honeypot field on each form
+  to filter out basic bot spam.
+- File inputs reject anything over 5MB client side before it's sent.
+- The Font Awesome stylesheet is loaded from cdnjs with a Subresource Integrity hash
+  (`integrity` + `crossorigin`), so the page refuses it if the CDN ever serves something
+  that doesn't match.
+- `vercel.json` sets `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`,
+  `Permissions-Policy`, and `Strict-Transport-Security` on every response.
+- No secrets live in this repo. The Web3Forms access key above is meant to be public
+  client side; Web3Forms rate-limits and validates on their end, the same model
+  Formspree and similar services use.
 
 ## Conventions
 
@@ -70,14 +64,14 @@ No dependencies, no build, no install.
 After any edit, diff the rendered text against the previous version to confirm nothing
 changed.
 
-- **Design tokens** live in `:root` in `styles.css` — navy scale, blue accents, ink text
+- **Design tokens** live in `:root` in `styles.css`: navy scale, blue accents, ink text
   greys, paper backgrounds, and `--ease-out` for motion.
 - **Buttons:** `.btn-primary` (navy, for light backgrounds), `.btn-cta-primary` (white,
   for dark backgrounds), `.btn-outline` (outline, for dark backgrounds).
 - **Scroll reveal:** add `.reveal` to any element; `script.js` staggers it into view.
-- **Headline lines:** wrap as `<span class="line"><span>…</span></span>` for the
+- **Headline lines:** wrap as `<span class="line"><span>...</span></span>` for the
   line-by-line intro animation.
-- **Marquees:** duplicates are cloned by JS at runtime — never hand-duplicate items in
+- **Marquees:** duplicates are cloned by JS at runtime, never hand-duplicate items in
   the HTML.
 - **Motion** is IntersectionObserver plus CSS transitions. No animation library.
   Everything degrades to plain fades under `prefers-reduced-motion`.
