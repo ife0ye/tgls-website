@@ -1636,6 +1636,16 @@ footer {
 /* ==========================================================================
    Responsive
    ========================================================================== */
+/* Large monitors (27"+ at ~2560px and up): the capped container starts
+   reading as excess side margin, and the hero text column leaves a lot of
+   the full-bleed photo empty on the right. Widen both a step, short of
+   letting body text stretch to an uncomfortable line length. */
+@media (min-width: 1600px) {
+  :root { --container: 1400px; }
+  .hero-content { max-width: 54rem; }
+  .page-hero-content > * { max-width: 52rem; }
+}
+
 @media (max-width: 1180px) {
   .nav-logo-text { display: none; }
   .home-nav-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
