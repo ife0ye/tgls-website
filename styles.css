@@ -2,6 +2,41 @@
    Total Global & Logistics Services Ltd
    ========================================================================== */
 
+/* Self-hosted fonts (SIL Open Font License, see fonts/). Latin-ext files only
+   download if a page actually contains those characters. */
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('fonts/instrument-sans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('fonts/instrument-sans-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/instrument-serif-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/instrument-serif-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
 :root {
   /* Brand */
   --navy-950: #041129;
@@ -38,7 +73,7 @@
   --container: 1240px;
   --gutter: clamp(20px, 5vw, 48px);
   --section-y: clamp(4.5rem, 10vw, 8rem);
-  --nav-h: 76px;
+  --nav-h: 4.75rem;
   --radius-sm: 6px;
   --radius: 10px;
   --radius-lg: 14px;
@@ -57,6 +92,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html {
   -webkit-text-size-adjust: 100%;
+  background: var(--navy-950);
   scroll-padding-top: calc(var(--nav-h) + 16px);
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -67,7 +103,9 @@ body {
   font-size: 1rem;
   line-height: 1.6;
   color: var(--ink-2);
-  background: var(--paper);
+  /* Navy outside <main> so iOS overscroll past the footer matches it, whichever
+     of html/body Safari samples; the page content itself sits on white. */
+  background: var(--navy-950);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -139,6 +177,18 @@ strong { font-weight: 600; }
 }
 .section-sub a { color: var(--blue-600); text-underline-offset: 3px; }
 
+.icon {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1em; height: 1em;
+  vertical-align: -0.125em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 h1 em, h2 em, h3 em {
   font-family: var(--font-serif);
   font-style: italic;
@@ -147,8 +197,7 @@ h1 em, h2 em, h3 em {
 }
 
 /* ── Buttons ──────────────────────────────────────────────────────────── */
-.btn,
-.btn-primary, .btn-outline, .btn-cta-primary, .btn-cta-outline, .btn-form-submit {
+.btn-primary, .btn-outline, .btn-cta-primary, .btn-form-submit {
   --btn-bg: var(--navy-800);
   --btn-fg: #fff;
   --btn-border: transparent;
@@ -171,11 +220,10 @@ h1 em, h2 em, h3 em {
     color 200ms ease,
     transform 160ms var(--ease-out);
 }
-.btn:active,
-.btn-primary:active, .btn-outline:active, .btn-cta-primary:active, .btn-cta-outline:active, .btn-form-submit:active {
+.btn-primary:active, .btn-outline:active, .btn-cta-primary:active, .btn-form-submit:active {
   transform: scale(0.97);
 }
-.btn .arrow, .btn-primary .arrow, .btn-cta-primary .arrow, .home-nav-link .arrow {
+.btn-primary .arrow, .btn-cta-primary .arrow, .home-nav-link .arrow {
   display: inline-block;
   transition: transform 240ms var(--ease-out);
 }
@@ -183,15 +231,15 @@ h1 em, h2 em, h3 em {
 /* Solid navy (light backgrounds) */
 .btn-primary, .btn-form-submit { --btn-bg: var(--navy-800); --btn-fg: #fff; }
 /* Solid white (dark backgrounds) */
-.btn-cta-primary, .btn-light { --btn-bg: #fff; --btn-fg: var(--navy-800); }
+.btn-cta-primary { --btn-bg: #fff; --btn-fg: var(--navy-800); }
 /* Outline (dark backgrounds) */
-.btn-outline, .btn-cta-outline { --btn-bg: transparent; --btn-fg: #fff; --btn-border: rgba(255, 255, 255, 0.32); }
+.btn-outline { --btn-bg: transparent; --btn-fg: #fff; --btn-border: rgba(255, 255, 255, 0.32); }
 
 @media (hover: hover) and (pointer: fine) {
   .btn-primary:hover, .btn-form-submit:hover { --btn-bg: var(--blue-600); }
-  .btn-cta-primary:hover, .btn-light:hover { --btn-bg: var(--sky-100); }
-  .btn-outline:hover, .btn-cta-outline:hover { --btn-bg: rgba(255, 255, 255, 0.08); --btn-border: rgba(255, 255, 255, 0.6); }
-  .btn:hover .arrow, .btn-primary:hover .arrow, .btn-cta-primary:hover .arrow { transform: translateX(3px); }
+  .btn-cta-primary:hover { --btn-bg: var(--sky-100); }
+  .btn-outline:hover { --btn-bg: rgba(255, 255, 255, 0.08); --btn-border: rgba(255, 255, 255, 0.6); }
+  .btn-primary:hover .arrow, .btn-cta-primary:hover .arrow { transform: translateX(3px); }
 }
 
 /* ==========================================================================
@@ -219,7 +267,7 @@ h1 em, h2 em, h3 em {
   display: flex; align-items: center; gap: 0.75rem;
   text-decoration: none; flex-shrink: 0; min-width: 0;
 }
-.nav-logo img { height: 50px; width: auto; }
+.nav-logo img { height: 3.125rem; width: auto; }
 .nav-logo-text strong {
   display: block;
   font-size: 0.9375rem; font-weight: 600; line-height: 1.2;
@@ -341,7 +389,6 @@ h1 em, h2 em, h3 em {
   opacity: 1; visibility: visible;
   transition: opacity 280ms ease, visibility 0s;
 }
-.mobile-nav-close { display: none; }
 .mobile-nav-links { display: flex; flex-direction: column; }
 .mobile-nav-links li {
   border-bottom: 1px solid var(--line-dark);
@@ -400,7 +447,8 @@ body.menu-open .nav-logo { opacity: 0; pointer-events: none; }
 }
 .hero-slide {
   position: absolute; inset: 0;
-  background-size: cover; background-position: center;
+  width: 100%; height: 100%;
+  object-fit: cover;
   opacity: 0;
   transform: scale(1.06);
   transition: opacity 1200ms ease, transform 7000ms linear;
@@ -409,12 +457,6 @@ body.menu-open .nav-logo { opacity: 0; pointer-events: none; }
   opacity: 1;
   transform: scale(1);
 }
-/* Gate the first slide's reveal behind the intro sequence instead of letting it
-   pop in the instant the browser finishes decoding it, mid-paint, uncoordinated
-   with everything else. A fixed, blurred navbar sits on top of this image, so an
-   abrupt pop reads as the navbar itself flashing a different color for a moment. */
-.js #hero .hero-slide.active { opacity: 0; }
-.js.is-loaded #hero .hero-slide.active { opacity: 1; }
 .hero-scrim {
   position: absolute; inset: 0; z-index: -1;
   background:
@@ -515,23 +557,22 @@ body.menu-open .nav-logo { opacity: 0; pointer-events: none; }
 .js #hero .hero-eyebrow,
 .js #hero .hero-sub,
 .js #hero .hero-actions,
-.js #hero .hero-footer { opacity: 0; transform: translateY(16px); }
+.js #hero .hero-footer { opacity: 0; transform: translateY(12px); }
 .js.is-loaded #hero .line > span {
   transform: none;
-  transition: transform 1000ms var(--ease-out);
-  transition-delay: calc(120ms + var(--i, 0) * 90ms);
+  transition: transform 700ms var(--ease-out);
+  transition-delay: calc(40ms + var(--i, 0) * 60ms);
 }
 .js.is-loaded #hero .hero-eyebrow,
 .js.is-loaded #hero .hero-sub,
 .js.is-loaded #hero .hero-actions,
 .js.is-loaded #hero .hero-footer {
   opacity: 1; transform: none;
-  transition: opacity 800ms ease, transform 900ms var(--ease-out);
+  transition: opacity 500ms ease, transform 600ms var(--ease-out);
 }
-.js.is-loaded #hero .hero-eyebrow { transition-delay: 40ms; }
-.js.is-loaded #hero .hero-sub { transition-delay: 420ms; }
-.js.is-loaded #hero .hero-actions { transition-delay: 520ms; }
-.js.is-loaded #hero .hero-footer { transition-delay: 680ms; }
+.js.is-loaded #hero .hero-sub { transition-delay: 180ms; }
+.js.is-loaded #hero .hero-actions { transition-delay: 240ms; }
+.js.is-loaded #hero .hero-footer { transition-delay: 300ms; }
 
 /* ==========================================================================
    Marquees
@@ -607,7 +648,7 @@ body.menu-open .nav-logo { opacity: 0; pointer-events: none; }
 /* ==========================================================================
    Sections, shared
    ========================================================================== */
-main { display: block; }
+main { display: block; background: var(--paper); }
 
 .home-overview,
 .subpage-section,
@@ -620,19 +661,6 @@ main { display: block; }
 .vendor-requirements-section {
   padding-block: var(--section-y);
 }
-
-.section-head {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 1.5rem 4rem;
-  align-items: end;
-  margin-bottom: clamp(2.5rem, 5vw, 4rem);
-}
-.section-head .section-heading { margin-bottom: 0; }
-.section-head .section-sub { justify-self: end; }
-
-.centered-head { text-align: center; max-width: 44rem; margin: 0 auto clamp(2.5rem, 5vw, 4rem); }
-.centered-head .section-sub { margin-inline: auto; }
 
 /* ── Home overview ── */
 .home-overview { background: var(--paper-2); }
@@ -663,7 +691,7 @@ main { display: block; }
   border-radius: var(--radius-sm);
   background: var(--sky-100);
   color: var(--navy-800);
-  font-size: 1rem;
+  font-size: 1.25rem;
   margin-bottom: 2.25rem;
   transition: background-color 240ms ease, color 240ms ease;
 }
@@ -704,11 +732,13 @@ main { display: block; }
   isolation: isolate;
 }
 .page-hero-media {
-  position: absolute; inset: -8% 0 -8% 0; z-index: -2;
-  background-size: cover; background-position: center;
+  position: absolute; left: 0; top: -8%; z-index: -2;
+  width: 100%; height: 116%;
+  object-fit: cover;
   will-change: transform;
-  transition: opacity 900ms ease;
 }
+.page-hero--error { min-height: 82vh; min-height: 82svh; }
+.error-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.25rem; }
 .page-hero-overlay {
   position: absolute; inset: 0; z-index: -1;
   background:
@@ -740,30 +770,28 @@ main { display: block; }
 
 .js .page-hero .line > span { transform: translateY(105%); }
 .js .page-hero .page-hero-eyebrow,
-.js .page-hero .page-hero-sub { opacity: 0; transform: translateY(14px); }
-.js .page-hero-media { opacity: 0; }
-.js.is-loaded .page-hero-media { opacity: 1; }
+.js .page-hero .page-hero-sub { opacity: 0; transform: translateY(10px); }
 .js.is-loaded .page-hero .line > span {
   transform: none;
-  transition: transform 900ms var(--ease-out);
-  transition-delay: calc(80ms + var(--i, 0) * 90ms);
+  transition: transform 600ms var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 50ms);
 }
 .js.is-loaded .page-hero .page-hero-eyebrow,
 .js.is-loaded .page-hero .page-hero-sub {
   opacity: 1; transform: none;
-  transition: opacity 700ms ease, transform 800ms var(--ease-out);
+  transition: opacity 400ms ease, transform 500ms var(--ease-out);
 }
-.js.is-loaded .page-hero .page-hero-sub { transition-delay: 320ms; }
+.js.is-loaded .page-hero .page-hero-sub { transition-delay: 120ms; }
 
 /* ==========================================================================
    Scroll reveal
    ========================================================================== */
 .js .reveal {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(16px);
   transition:
-    opacity 700ms ease,
-    transform 900ms var(--ease-out);
+    opacity 500ms ease,
+    transform 600ms var(--ease-out);
   transition-delay: var(--reveal-delay, 0ms);
 }
 .js .reveal.is-visible { opacity: 1; transform: none; }
@@ -797,7 +825,7 @@ main { display: block; }
   border-radius: var(--radius);
   background: var(--sky-100);
   color: var(--navy-800);
-  font-size: 1.125rem;
+  font-size: 1.375rem;
   margin-bottom: 3rem;
 }
 .service-card h3 {
@@ -911,7 +939,7 @@ main { display: block; }
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.22);
   color: var(--blue-300);
-  font-size: 1rem;
+  font-size: 1.25rem;
   margin-bottom: auto;
 }
 .mvv-card-label {
@@ -944,7 +972,7 @@ main { display: block; }
   border-bottom: 1px solid var(--line);
 }
 .value-card + .value-card { padding-left: 1.5rem; border-left: 1px solid var(--line); }
-.value-icon { font-size: 1.125rem; color: var(--blue-600); margin-bottom: 2.5rem; }
+.value-icon { font-size: 1.375rem; color: var(--blue-600); margin-bottom: 2.5rem; }
 .value-card h4 {
   font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.015em;
   color: var(--ink);
@@ -1086,7 +1114,7 @@ main { display: block; }
   border-radius: var(--radius-sm);
   background: var(--sky-100);
   color: var(--navy-800);
-  font-size: 0.9375rem;
+  font-size: 1.125rem;
 }
 .contact-card-body strong {
   display: block;
@@ -1170,7 +1198,7 @@ main { display: block; }
   border-radius: var(--radius);
   background: var(--sky-100);
   color: var(--navy-800);
-  font-size: 1rem;
+  font-size: 1.25rem;
 }
 .intro-feature-body h4 {
   font-size: 1.125rem; font-weight: 600; letter-spacing: -0.015em;
@@ -1219,8 +1247,8 @@ main { display: block; }
   margin-bottom: 1rem;
   border-bottom: 1px solid var(--line);
 }
-.program-detail-card h4 i,
-.vendor-req-card h4 i { color: var(--blue-600); font-size: 0.9375rem; }
+.program-detail-card h4 .icon,
+.vendor-req-card h4 .icon { color: var(--blue-600); font-size: 0.9375rem; }
 
 .program-list { display: grid; gap: 0.75rem; }
 .program-list li {
@@ -1230,11 +1258,10 @@ main { display: block; }
   font-size: 0.9375rem; line-height: 1.5;
   color: var(--ink-2);
 }
-.program-list li i {
+.program-list li .icon {
   color: var(--blue-600);
   font-size: 0.875rem;
-  margin-top: 0.2rem;
-  text-align: center;
+  margin-top: 0.27rem;
 }
 
 .why-join-section {
@@ -1369,13 +1396,13 @@ main { display: block; }
 .vendor-why-card { background: var(--navy-900); border-color: var(--navy-900); }
 .vendor-why-card h4 { color: #fff; border-bottom-color: var(--line-dark); }
 .vendor-why-card .program-list li { color: var(--on-dark-2); }
-.vendor-why-card .program-list li i { color: var(--blue-300); }
+.vendor-why-card .program-list li .icon { color: var(--blue-300); }
 
 /* ==========================================================================
    Forms
    ========================================================================== */
 .form-section { background: var(--paper-2); border-top: 1px solid var(--line); }
-.form-section-inner { max-width: 880px; margin-inline: auto; }
+.form-section-inner { max-width: 55rem; margin-inline: auto; }
 .form-header { text-align: center; margin-bottom: clamp(2rem, 4vw, 3rem); }
 .form-header .section-sub { margin-inline: auto; }
 
@@ -1534,11 +1561,11 @@ main { display: block; }
   text-align: center;
 }
 .btn-form-submit { min-height: 52px; padding-inline: 1.75rem; }
-.btn-form-submit i { font-size: 0.875rem; }
+.btn-form-submit .icon { font-size: 0.875rem; }
 .btn-form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
-.btn-form-submit .fa-spinner { display: none; }
-.btn-form-submit:disabled .fa-spinner { display: inline-block; animation: spin 800ms linear infinite; }
-.btn-form-submit:disabled .fa-paper-plane { display: none; }
+.btn-form-submit .icon-loader-circle { display: none; }
+.btn-form-submit:disabled .icon-loader-circle { display: inline-block; animation: spin 800ms linear infinite; }
+.btn-form-submit:disabled .icon-send { display: none; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .form-honeypot {
@@ -1629,14 +1656,13 @@ footer {
 /* ==========================================================================
    Responsive
    ========================================================================== */
-/* Large monitors (27"+ at ~2560px and up): the capped container starts
-   reading as excess side margin, and the hero text column leaves a lot of
-   the full-bleed photo empty on the right. Widen both a step, short of
-   letting body text stretch to an uncomfortable line length. */
+/* Large monitors: a layout sized for laptops reads as a narrow strip in the
+   middle of a 27" screen. Scale type and spacing gently with the viewport
+   (16px at 1600px, ~19px at 2560px, capped at 21px) and let content use more
+   of the width. Everything sized in rem grows in proportion. */
 @media (min-width: 1600px) {
-  :root { --container: min(80vw, 1760px); }
-  .hero-content { max-width: 54rem; }
-  .page-hero-content > * { max-width: 52rem; }
+  html { font-size: min(calc(65% + 0.35vw), 131.25%); }
+  :root { --container: min(84vw, 2200px); }
 }
 
 @media (max-width: 1180px) {
@@ -1650,19 +1676,17 @@ footer {
 }
 
 @media (max-width: 960px) {
-  :root { --nav-h: 68px; }
+  :root { --nav-h: 4.25rem; }
   .nav-links, .nav-cta { display: none; }
   .nav-hamburger { display: block; }
   .nav-logo-text { display: block; }
-  .nav-logo img { height: 44px; }
+  .nav-logo img { height: 2.75rem; }
 
-  .section-head,
   .about-grid,
   .contact-layout,
   .intro-split-inner,
   .program-grid,
   .process-inner { grid-template-columns: minmax(0, 1fr); }
-  .section-head .section-sub { justify-self: start; }
   .about-visual, .intro-split-lead, .process-header { position: static; }
   .program-grid--reverse > .program-text { order: 0; }
 
@@ -1685,7 +1709,7 @@ footer {
 @media (max-width: 640px) {
   .nav-logo-text strong { font-size: 0.8125rem; max-width: 11rem; }
   .hero-content { margin-bottom: 2.5rem; }
-  .hero-actions .btn-outline, .hero-actions .btn-cta-primary, .hero-actions a { flex: 1 1 100%; }
+  .hero-actions a { flex: 1 1 100%; }
   .hero-stats { justify-content: space-between; }
   .hero-stat span { font-size: 0.75rem; }
   .hero-dot { width: 18px; }

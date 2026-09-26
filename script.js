@@ -10,8 +10,20 @@
     else document.addEventListener('DOMContentLoaded', fn);
   }
 
-  // ── Prefetch internal pages on hover / touch so navigation feels instant ──
+  // ── Fetch the next page before the click lands so navigation feels instant.
+  // Chromium prerenders via speculation rules; other browsers get a hover prefetch.
+  // The CSP in vercel.json allows this rule set by its sha256 hash: if you change
+  // the JSON below, recompute the hash (Chrome's console prints the new one).
   (function () {
+    if (window.HTMLScriptElement && HTMLScriptElement.supports && HTMLScriptElement.supports('speculationrules')) {
+      var rules = document.createElement('script');
+      rules.type = 'speculationrules';
+      rules.textContent = JSON.stringify({
+        prerender: [{ where: { href_matches: '/*.html' }, eagerness: 'moderate' }]
+      });
+      document.head.appendChild(rules);
+      return;
+    }
     var prefetched = new Set();
     function maybePrefetch(e) {
       var a = e.target.closest && e.target.closest('a');
@@ -174,7 +186,7 @@
           return a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
         });
         batch.forEach(function (el, i) {
-          el.style.setProperty('--reveal-delay', Math.min(i, 6) * 70 + 'ms');
+          el.style.setProperty('--reveal-delay', Math.min(i, 6) * 50 + 'ms');
           el.classList.add('is-visible');
           io.unobserve(el);
         });
@@ -193,7 +205,7 @@
         el.textContent = '0' + suffix;
         setTimeout(function () {
           var start = null;
-          var duration = 1400;
+          var duration = 1000;
           function step(t) {
             if (start === null) start = t;
             var p = Math.min((t - start) / duration, 1);
@@ -202,7 +214,7 @@
             if (p < 1) requestAnimationFrame(step);
           }
           requestAnimationFrame(step);
-        }, 750);
+        }, 350);
       });
     }
 
@@ -224,7 +236,15 @@
       var hovering = false;
       var inView = true;
 
+      function load(slide) {
+        if (slide && slide.dataset.src) {
+          slide.src = slide.dataset.src;
+          slide.removeAttribute('data-src');
+        }
+      }
+
       function render() {
+        load(slides[current]);
         slides.forEach(function (s, i) { s.classList.toggle('active', i === current); });
         dots.forEach(function (d, i) {
           d.classList.remove('active');
@@ -310,13 +330,9 @@
       });
       hero.addEventListener('pointercancel', function () { tracking = false; });
 
-      // Preload the remaining slides once the page has settled
-      window.addEventListener('load', function () {
-        slides.forEach(function (s) {
-          var m = /url\(["']?(.*?)["']?\)/.exec(s.style.backgroundImage);
-          if (m) { var img = new Image(); img.src = m[1]; }
-        });
-      });
+      // Only the first photo loads with the page; the rest follow once it has settled
+      if (document.readyState === 'complete') slides.forEach(load);
+      else window.addEventListener('load', function () { slides.forEach(load); });
 
       render();
       schedule(INTERVAL);
@@ -328,8 +344,6 @@
       var sticky = document.querySelector('.sticky-mobile-cta');
       var footer = document.querySelector('footer');
       var processes = [];
-
-      if (!sticky) document.body.classList.add('no-sticky');
 
       document.querySelectorAll('.process-steps').forEach(function (list) {
         var bar = document.createElement('span');
@@ -407,8 +421,7 @@
       });
     });
 
-    // ── Form submission: send via Web3Forms so file uploads actually arrive ──
-    // (a plain mailto: form silently drops attachments and often opens nothing on mobile)
+    // ── Form submission via Web3Forms, which delivers file uploads by email ──
     document.querySelectorAll('form[data-form-endpoint]').forEach(function (form) {
       var status = form.querySelector('.form-status');
       var submitBtn = form.querySelector('.btn-form-submit');
@@ -442,7 +455,6 @@
         })
           .then(function (res) { return res.json(); })
           .then(function (data) {
-            submitBtn.disabled = false;
             if (data.success) {
               setStatus('success', 'Thank you, your submission has been received. Our team will be in touch shortly.');
               form.reset();
@@ -456,9 +468,9 @@
             }
           })
           .catch(function () {
-            submitBtn.disabled = false;
             setStatus('error', 'Network error. Please check your connection and try again.');
-          });
+          })
+          .finally(function () { submitBtn.disabled = false; });
       });
     });
   });
