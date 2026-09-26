@@ -254,7 +254,8 @@ h1 em, h2 em, h3 em {
 
 .nav-chevron { font-size: 0.6rem; transition: transform 200ms var(--ease-out); }
 .nav-dropdown:hover .nav-chevron,
-.nav-dropdown:focus-within .nav-chevron { transform: rotate(180deg); }
+.nav-dropdown:focus-within .nav-chevron,
+.nav-dropdown.touch-open .nav-chevron { transform: rotate(180deg); }
 
 .nav-dropdown-menu {
   position: absolute; top: calc(100% + 8px); left: 50%;
@@ -280,7 +281,8 @@ h1 em, h2 em, h3 em {
   content: ''; position: absolute; left: 0; right: 0; top: -10px; height: 10px;
 }
 .nav-dropdown:hover .nav-dropdown-menu,
-.nav-dropdown:focus-within .nav-dropdown-menu {
+.nav-dropdown:focus-within .nav-dropdown-menu,
+.nav-dropdown.touch-open .nav-dropdown-menu {
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0) scale(1);
@@ -503,27 +505,6 @@ body.menu-open .nav-logo { opacity: 0; pointer-events: none; }
 .hero-arrow:active { transform: scale(0.92); }
 @media (hover: hover) and (pointer: fine) {
   .hero-arrow:hover { background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 255, 255, 0.4); }
-}
-
-.scroll-indicator {
-  display: flex; align-items: center; gap: 0.75rem;
-  font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--on-dark-3);
-  margin-right: auto; margin-left: clamp(1.5rem, 4vw, 3.5rem);
-  padding-bottom: 0.25rem;
-}
-.scroll-indicator-line {
-  position: relative; width: 36px; height: 1px; overflow: hidden;
-  background: rgba(255, 255, 255, 0.2);
-}
-.scroll-indicator-line::after {
-  content: ''; position: absolute; inset: 0; background: #fff;
-  transform: translateX(-100%);
-  animation: scrollCue 2.4s var(--ease-in-out) infinite;
-}
-@keyframes scrollCue {
-  0% { transform: translateX(-100%); }
-  55%, 100% { transform: translateX(100%); }
 }
 
 /* Intro sequence (only when JS is present) */
@@ -1655,7 +1636,6 @@ footer {
   .sticky-mobile-cta { display: block; }
 
   .hero-footer { flex-direction: column; align-items: stretch; gap: 1.5rem; }
-  .scroll-indicator { display: none; }
   .hero-controls { justify-content: space-between; }
 }
 
@@ -1715,7 +1695,6 @@ footer {
   .ticker-item { padding: 0.25rem 1.25rem; }
   [data-clone] { display: none !important; }
   .logo-track-wrapper { -webkit-mask-image: none; mask-image: none; }
-  .scroll-indicator-line::after { display: none; }
   .hero-dot.active::after { animation: none; transform: scaleX(1); }
 }
 

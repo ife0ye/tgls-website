@@ -92,6 +92,24 @@
       });
     });
 
+    // ── Desktop dropdown on touch (tablets/hybrids ≥960px): first tap opens, second tap follows the link ──
+    document.querySelectorAll('.nav-dropdown-toggle').forEach(function (toggle) {
+      var dd = toggle.closest('.nav-dropdown');
+      var opened = false;
+      toggle.addEventListener('click', function (e) {
+        if (finePointer.matches || opened) return;
+        e.preventDefault();
+        opened = true;
+        dd.classList.add('touch-open');
+      });
+      document.addEventListener('click', function (e) {
+        if (opened && !dd.contains(e.target)) {
+          opened = false;
+          dd.classList.remove('touch-open');
+        }
+      });
+    });
+
     // ── Marquees: clone the set once so the loop is seamless ──
     document.querySelectorAll('.ticker-track, .logo-track').forEach(function (track) {
       var items = Array.prototype.slice.call(track.children);

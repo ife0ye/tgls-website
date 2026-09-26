@@ -16,12 +16,8 @@ another device.
 
 ### Breaks the live site
 
-- [ ] **`Images/NNPC Logo.png`** — 472 × 278 PNG, ~29 KB
-
-  Used by the client logo carousel on `index.html` and `clients.html`. Both pages
-  currently show a broken image there. **To fix:** drop the file in at that exact path —
-  no code change needed, the filename is already referenced. A transparent PNG around
-  470 × 280 will match the other logos.
+- [x] **`Images/NNPC Logo.png`** — restored (492 × 302 PNG). Client logo carousel on
+  `index.html` and `clients.html` now resolves correctly.
 
 ### Low priority — not used by the live site
 
@@ -30,7 +26,7 @@ Pre-compression originals from `Images/_originals/` (excluded from deploys via
 so losing these only costs the higher-quality sources.
 
 - [ ] `Carousel Image 1.png` … `Carousel Image 7.png`
-- [ ] `NNPC Logo.png`
+- [ ] `NNPC Logo.png` (original, higher-res source — the live-size copy is restored above)
 - [ ] `OMS logo.png`
 
 Still intact in `_originals/`: `logo.png`, `Renaissance logo.png`,
