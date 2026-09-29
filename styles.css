@@ -397,8 +397,8 @@ h1 em, h2 em, h3 em {
 }
 .mobile-nav-overlay.open .mobile-nav-links li {
   opacity: 1; transform: none;
-  transition: opacity 400ms ease, transform 500ms var(--ease-out);
-  transition-delay: calc(60ms + var(--i, 0) * 35ms);
+  transition: opacity 300ms ease, transform 400ms var(--ease-out);
+  transition-delay: calc(40ms + var(--i, 0) * 25ms);
 }
 .mobile-nav-links a {
   display: flex; align-items: center; justify-content: space-between;
@@ -417,7 +417,7 @@ h1 em, h2 em, h3 em {
 }
 .mobile-nav-overlay.open .mobile-nav-cta-btn {
   opacity: 1; transform: none;
-  transition: opacity 400ms ease 340ms, transform 500ms var(--ease-out) 340ms;
+  transition: opacity 300ms ease 220ms, transform 400ms var(--ease-out) 220ms;
 }
 .mobile-nav-cta-btn { width: 100%; min-height: 52px; }
 
@@ -570,7 +570,7 @@ body.menu-open .nav-logo { opacity: 0; pointer-events: none; }
   opacity: 1; transform: none;
   transition: opacity 500ms ease, transform 600ms var(--ease-out);
 }
-.js.is-loaded #hero .hero-sub { transition-delay: 180ms; }
+.js.is-loaded #hero .hero-sub { transition-delay: 60ms; }
 .js.is-loaded #hero .hero-actions { transition-delay: 240ms; }
 .js.is-loaded #hero .hero-footer { transition-delay: 300ms; }
 
@@ -781,7 +781,7 @@ main { display: block; background: var(--paper); }
   opacity: 1; transform: none;
   transition: opacity 400ms ease, transform 500ms var(--ease-out);
 }
-.js.is-loaded .page-hero .page-hero-sub { transition-delay: 120ms; }
+.js.is-loaded .page-hero .page-hero-sub { transition-delay: 60ms; }
 
 /* ==========================================================================
    Scroll reveal
@@ -828,7 +828,7 @@ main { display: block; background: var(--paper); }
   font-size: 1.375rem;
   margin-bottom: 3rem;
 }
-.service-card h3 {
+.service-card h2 {
   font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.25;
   color: var(--ink);
   margin-bottom: 0.75rem;
@@ -900,7 +900,7 @@ main { display: block; background: var(--paper); }
   font-variant-numeric: tabular-nums;
   padding-top: 0.15rem;
 }
-.about-value h4 {
+.about-value h3 {
   font-size: 1.125rem; font-weight: 600; letter-spacing: -0.015em;
   color: var(--ink);
   margin-bottom: 0.375rem;
@@ -1021,7 +1021,7 @@ main { display: block; background: var(--paper); }
   background: currentColor;
   box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.14);
 }
-.permit-card h4 {
+.permit-card h3 {
   font-size: 1.1875rem; font-weight: 600; line-height: 1.3; letter-spacing: -0.015em;
   color: var(--ink);
   margin-bottom: 1rem;
@@ -1128,14 +1128,17 @@ main { display: block; background: var(--paper); }
   color: var(--ink);
   overflow-wrap: anywhere;
 }
+/* Always underlined: on touch screens there is no hover to reveal that these are tappable */
 .contact-card-body a {
-  color: var(--ink); text-decoration: none;
-  background-image: linear-gradient(currentColor, currentColor);
-  background-size: 0% 1px; background-position: 0 100%; background-repeat: no-repeat;
-  transition: background-size 300ms var(--ease-out), color 160ms ease;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color 160ms ease, text-decoration-color 160ms ease;
 }
 @media (hover: hover) and (pointer: fine) {
-  .contact-card-body a:hover { color: var(--blue-600); background-size: 100% 1px; }
+  .contact-card-body a:hover { color: var(--blue-600); text-decoration-color: currentColor; }
 }
 
 /* ==========================================================================
@@ -1200,7 +1203,7 @@ main { display: block; background: var(--paper); }
   color: var(--navy-800);
   font-size: 1.25rem;
 }
-.intro-feature-body h4 {
+.intro-feature-body h3 {
   font-size: 1.125rem; font-weight: 600; letter-spacing: -0.015em;
   color: var(--ink);
   margin-bottom: 0.375rem;
@@ -1237,9 +1240,9 @@ main { display: block; background: var(--paper); }
   border-radius: var(--radius-lg);
 }
 .program-section--alt .program-detail-card { background: var(--paper-2); }
-.program-detail-card h4,
-.vendor-req-card h4,
-.vendor-why-card h4 {
+.program-detail-card h3,
+.vendor-req-card h3,
+.vendor-why-card h3 {
   display: flex; align-items: center; gap: 0.625rem;
   font-size: 1rem; font-weight: 600; letter-spacing: -0.01em;
   color: var(--ink);
@@ -1247,8 +1250,8 @@ main { display: block; background: var(--paper); }
   margin-bottom: 1rem;
   border-bottom: 1px solid var(--line);
 }
-.program-detail-card h4 .icon,
-.vendor-req-card h4 .icon { color: var(--blue-600); font-size: 0.9375rem; }
+.program-detail-card h3 .icon,
+.vendor-req-card h3 .icon { color: var(--blue-600); font-size: 0.9375rem; }
 
 .program-list { display: grid; gap: 0.75rem; }
 .program-list li {
@@ -1303,7 +1306,7 @@ main { display: block; background: var(--paper); }
   color: var(--blue-300);
   margin-bottom: 2.5rem;
 }
-.why-join-card h4 {
+.why-join-card h3 {
   font-size: 1.125rem; font-weight: 600; letter-spacing: -0.015em;
   color: #fff;
   margin-bottom: 0.625rem;
@@ -1361,7 +1364,7 @@ main { display: block; background: var(--paper); }
   color: #fff;
 }
 .process-step-body { padding-top: 0.5rem; }
-.process-step-body h4 {
+.process-step-body h3 {
   font-size: 1.1875rem; font-weight: 600; letter-spacing: -0.015em;
   color: var(--ink);
   margin-bottom: 0.375rem;
@@ -1394,7 +1397,7 @@ main { display: block; background: var(--paper); }
 }
 .vendor-req-card { background: var(--paper-2); }
 .vendor-why-card { background: var(--navy-900); border-color: var(--navy-900); }
-.vendor-why-card h4 { color: #fff; border-bottom-color: var(--line-dark); }
+.vendor-why-card h3 { color: #fff; border-bottom-color: var(--line-dark); }
 .vendor-why-card .program-list li { color: var(--on-dark-2); }
 .vendor-why-card .program-list li .icon { color: var(--blue-300); }
 
@@ -1425,7 +1428,7 @@ main { display: block; background: var(--paper); }
   font-size: 0.875rem; font-weight: 600;
   color: var(--ink);
 }
-.form-group input:not([type="file"]):not([type="checkbox"]),
+.form-group input:not([type="checkbox"]),
 .form-group select,
 .form-group textarea {
   width: 100%;
@@ -1450,7 +1453,7 @@ main { display: block; background: var(--paper); }
 .form-group input::placeholder,
 .form-group textarea::placeholder { color: #9aa6b8; }
 @media (hover: hover) and (pointer: fine) {
-  .form-group input:not([type="file"]):hover,
+  .form-group input:not([type="checkbox"]):hover,
   .form-group select:hover,
   .form-group textarea:hover { border-color: rgba(11, 27, 51, 0.28); }
 }
@@ -1460,6 +1463,13 @@ main { display: block; background: var(--paper); }
   border-color: var(--blue-600);
   box-shadow: 0 0 0 4px rgba(26, 95, 184, 0.14);
 }
+/* Flag problems only after the visitor has interacted with a field, never while typing */
+.form-group input:not([type="checkbox"]):user-invalid,
+.form-group select:user-invalid,
+.form-group textarea:user-invalid { border-color: #c2410c; }
+.form-group input:not([type="checkbox"]):user-invalid:focus,
+.form-group select:user-invalid:focus,
+.form-group textarea:user-invalid:focus { border-color: #c2410c; box-shadow: 0 0 0 4px rgba(194, 65, 12, 0.14); }
 .form-group textarea { resize: vertical; min-height: 120px; line-height: 1.5; }
 
 .required { color: #c2410c; }
@@ -1586,6 +1596,19 @@ footer {
   font-size: clamp(1.25rem, 2vw, 1.5rem); font-weight: 600; line-height: 1.2; letter-spacing: -0.02em;
   color: #fff;
   max-width: 20rem;
+}
+.footer-contact {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 0.375rem;
+  margin-top: 1rem;
+}
+.footer-contact a {
+  font-size: 0.9375rem;
+  color: var(--on-dark-2);
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .footer-contact a:hover { color: #fff; }
 }
 .footer-links {
   display: grid;

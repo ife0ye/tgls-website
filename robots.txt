@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://totalgloballimited.com/sitemap.xml
+Sitemap: https://www.totalgloballimited.com/sitemap.xml

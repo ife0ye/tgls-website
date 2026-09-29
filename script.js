@@ -49,6 +49,10 @@
       requestAnimationFrame(function () { root.classList.add('is-loaded'); });
     });
 
+    document.querySelectorAll('[data-year]').forEach(function (el) {
+      el.textContent = new Date().getFullYear();
+    });
+
     // ── Headline line indices (for staggered line reveals) ──
     document.querySelectorAll('.hero-headline, .page-hero-headline').forEach(function (h) {
       h.querySelectorAll('.line > span').forEach(function (span, i) {
@@ -66,7 +70,12 @@
         li.style.setProperty('--i', i);
       });
 
+      // Everything behind the overlay: made inert while it's open so keyboard and
+      // screen-reader focus can't wander into the hidden page underneath.
+      var background = document.querySelectorAll('.skip-link, .nav-logo, main, footer, .sticky-mobile-cta');
+
       function setOpen(open) {
+        background.forEach(function (el) { el.inert = open; });
         overlay.classList.toggle('open', open);
         button.classList.toggle('open', open);
         document.body.classList.toggle('menu-open', open);
@@ -235,6 +244,7 @@
       var startedAt = 0;
       var hovering = false;
       var inView = true;
+      var ready = false;
 
       function load(slide) {
         if (slide && slide.dataset.src) {
@@ -245,6 +255,7 @@
 
       function render() {
         load(slides[current]);
+        if (ready) load(slides[(current + 1) % slides.length]);
         slides.forEach(function (s, i) { s.classList.toggle('active', i === current); });
         dots.forEach(function (d, i) {
           d.classList.remove('active');
@@ -330,9 +341,11 @@
       });
       hero.addEventListener('pointercancel', function () { tracking = false; });
 
-      // Only the first photo loads with the page; the rest follow once it has settled
-      if (document.readyState === 'complete') slides.forEach(load);
-      else window.addEventListener('load', function () { slides.forEach(load); });
+      // Photos load just in time: only the first comes with the page, then each
+      // slide fetches the next one. Visitors who leave early never download the rest.
+      function warmNext() { ready = true; load(slides[(current + 1) % slides.length]); }
+      if (document.readyState === 'complete') setTimeout(warmNext, 2000);
+      else window.addEventListener('load', function () { setTimeout(warmNext, 2000); });
 
       render();
       schedule(INTERVAL);

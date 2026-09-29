@@ -1,7 +1,7 @@
 # TGLS, Total Global & Logistics Services Ltd
 
 Company website for an oil & gas logistics operator in Nigeria, live at
-[totalgloballimited.com](https://totalgloballimited.com). Static HTML/CSS/JS with no
+[totalgloballimited.com](https://www.totalgloballimited.com). Static HTML/CSS/JS with no
 build step and no third-party requests, deployed on Vercel.
 
 ## Setup required before launch
