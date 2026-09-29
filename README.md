@@ -11,14 +11,11 @@ free plan (250 submissions a month). The free plan sends text fields only, so ne
 has upload fields: each shows a notice asking people to email their CV or company
 documents to info@totalgloballimited.com, and the success message repeats it.
 
-Both forms carry a placeholder access key and show a "not connected yet" message until
-a real key is set:
-
-1. Create a free access key at [web3forms.com](https://web3forms.com) using the inbox that
-   should receive submissions. The key is emailed to that inbox.
-2. Replace `YOUR_WEB3FORMS_ACCESS_KEY` in `careers.html` and `vendors.html` with the real
-   key. It is designed to be public, so it's safe in the HTML.
-3. Submit each form once and confirm the email arrives.
+The access key is set in the hidden `access_key` input of both forms. It's tied to the
+inbox it was created with, which is where submissions are delivered. The key is designed
+to be public, so it's safe in the HTML. To send submissions to a different inbox, create a
+new key at [web3forms.com](https://web3forms.com) with that address and replace it in
+both files.
 
 ## Project layout
 
