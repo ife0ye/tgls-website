@@ -9,7 +9,7 @@ build step and no third-party requests, deployed on Vercel.
 The Careers and Vendors forms submit through [Web3Forms](https://web3forms.com) on its
 free plan (250 submissions a month). The free plan sends text fields only, so neither form
 has upload fields: each shows a notice asking people to email their CV or company
-documents to totalgloballogisticsltd@gmail.com, and the success message repeats it.
+documents to info@totalgloballimited.com, and the success message repeats it.
 
 Both forms carry a placeholder access key and show a "not connected yet" message until
 a real key is set:
