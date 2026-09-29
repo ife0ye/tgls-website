@@ -235,7 +235,7 @@
         <div class="process-step-num">01</div>
         <div class="process-step-body">
           <h4>Submit Your Application</h4>
-          <p>Complete and submit the application form below with your CV and relevant documents.</p>
+          <p>Complete and submit the application form below, then email your CV and relevant documents.</p>
         </div>
       </div>
       <div class="process-step reveal">
@@ -271,11 +271,11 @@
       <h2 class="section-heading">Submit Your Application</h2>
       <p class="section-sub">Fill in the form below or send your CV directly to <a href="mailto:totalgloballogisticsltd@gmail.com">totalgloballogisticsltd@gmail.com</a></p>
     </div>
-    <form class="tgls-form reveal" id="careers-form" data-form-endpoint>
+    <form class="tgls-form reveal" id="careers-form" data-form-endpoint data-success="Thank you, your application has been received. Please remember to email your CV to totalgloballogisticsltd@gmail.com.">
       <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
       <input type="hidden" name="subject" value="New Careers Application: TGLS">
       <input type="hidden" name="from_name" value="TGLS Careers Form">
-      <input type="text" name="company_website" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input type="checkbox" name="botcheck" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="form-group-row">
         <div class="form-group">
           <label for="cf-name">Full Name <span class="required">*</span></label>
@@ -317,27 +317,13 @@
           </select>
         </div>
       </div>
-      <div class="form-group-row">
-        <div class="form-group">
-          <label for="cf-cv">Upload CV / Resume <span class="required">*</span></label>
-          <div class="file-upload-wrapper">
-            <input type="file" id="cf-cv" name="cv" accept=".pdf,.doc,.docx" required>
-            <label for="cf-cv" class="file-upload-label"><svg class="icon icon-upload" aria-hidden="true"><use href="icons.svg#upload"></use></svg> Choose File</label>
-            <span class="file-upload-name" id="cf-cv-name">No file chosen</span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="cf-cover">Cover Letter <span class="optional">(Optional)</span></label>
-          <div class="file-upload-wrapper">
-            <input type="file" id="cf-cover" name="cover_letter" accept=".pdf,.doc,.docx">
-            <label for="cf-cover" class="file-upload-label"><svg class="icon icon-upload" aria-hidden="true"><use href="icons.svg#upload"></use></svg> Choose File</label>
-            <span class="file-upload-name" id="cf-cover-name">No file chosen</span>
-          </div>
-        </div>
-      </div>
       <div class="form-group">
         <label for="cf-date">Availability Date <span class="required">*</span></label>
         <input type="date" id="cf-date" name="availability_date" required>
+      </div>
+      <div class="form-email-notice">
+        <svg class="icon icon-mail" aria-hidden="true"><use href="icons.svg#mail"></use></svg>
+        <p><strong>Send your CV by email.</strong> After submitting this form, email your CV (and cover letter, if you have one) to <a href="mailto:totalgloballogisticsltd@gmail.com?subject=CV%20Application">totalgloballogisticsltd<wbr>@gmail.com</a> with your full name and the position in the subject line.</p>
       </div>
       <div class="form-submit">
         <button type="submit" class="btn-form-submit"><svg class="icon icon-loader-circle" aria-hidden="true"><use href="icons.svg#loader-circle"></use></svg> <span>Submit Application</span> <svg class="icon icon-send" aria-hidden="true"><use href="icons.svg#send"></use></svg></button>

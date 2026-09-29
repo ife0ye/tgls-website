@@ -195,7 +195,7 @@
         <div class="process-step-num">01</div>
         <div class="process-step-body">
           <h4>Submit Application Documents</h4>
-          <p>Complete the vendor registration form below and upload all required company documents.</p>
+          <p>Complete the vendor registration form below and email all required company documents.</p>
         </div>
       </div>
       <div class="process-step reveal">
@@ -231,11 +231,11 @@
       <h2 class="section-heading">Vendor Registration Form</h2>
       <p class="section-sub">Complete the form below or send your company profile and supporting documents to <a href="mailto:totalgloballogisticsltd@gmail.com">totalgloballogisticsltd@gmail.com</a></p>
     </div>
-    <form class="tgls-form reveal" id="vendor-form" data-form-endpoint>
+    <form class="tgls-form reveal" id="vendor-form" data-form-endpoint data-success="Thank you, your registration has been received. Please remember to email your company documents to totalgloballogisticsltd@gmail.com.">
       <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
       <input type="hidden" name="subject" value="New Vendor Registration: TGLS">
       <input type="hidden" name="from_name" value="TGLS Vendor Registration Form">
-      <input type="text" name="company_website_url" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input type="checkbox" name="botcheck" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
 
       <div class="form-section-label-inner">Company Information</div>
       <div class="form-group-row">
@@ -285,60 +285,10 @@
         <label class="checkbox-label"><input type="checkbox" name="category[]" value="Fleet Maintenance Services"> Fleet Maintenance Services</label>
       </div>
 
-      <div class="form-section-label-inner">Upload Documents</div>
-      <div class="form-group-row">
-        <div class="form-group">
-          <label for="vf-profile">Company Profile <span class="required">*</span></label>
-          <div class="file-upload-wrapper">
-            <input type="file" id="vf-profile" name="company_profile" accept=".pdf,.doc,.docx" required>
-            <label for="vf-profile" class="file-upload-label"><svg class="icon icon-upload" aria-hidden="true"><use href="icons.svg#upload"></use></svg> Choose File</label>
-            <span class="file-upload-name" id="vf-profile-name">No file chosen</span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="vf-cac">CAC Certificate <span class="required">*</span></label>
-          <div class="file-upload-wrapper">
-            <input type="file" id="vf-cac" name="cac_certificate" accept=".pdf,.jpg,.jpeg,.png" required>
-            <label for="vf-cac" class="file-upload-label"><svg class="icon icon-upload" aria-hidden="true"><use href="icons.svg#upload"></use></svg> Choose File</label>
-            <span class="file-upload-name" id="vf-cac-name">No file chosen</span>
-          </div>
-        </div>
-      </div>
-      <div class="form-group-row">
-        <div class="form-group">
-          <label for="vf-tax">Tax Clearance <span class="required">*</span></label>
-          <div class="file-upload-wrapper">
-            <input type="file" id="vf-tax" name="tax_clearance" accept=".pdf,.jpg,.jpeg,.png" required>
-            <label for="vf-tax" class="file-upload-label"><svg class="icon icon-upload" aria-hidden="true"><use href="icons.svg#upload"></use></svg> Choose File</label>
-            <span class="file-upload-name" id="vf-tax-name">No file chosen</span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="vf-license">Relevant Licenses <span class="optional">(Optional)</span></label>
-          <div class="file-upload-wrapper">
-            <input type="file" id="vf-license" name="licenses" accept=".pdf,.jpg,.jpeg,.png">
-            <label for="vf-license" class="file-upload-label"><svg class="icon icon-upload" aria-hidden="true"><use href="icons.svg#upload"></use></svg> Choose File</label>
-            <span class="file-upload-name" id="vf-license-name">No file chosen</span>
-          </div>
-        </div>
-      </div>
-      <div class="form-group-row">
-        <div class="form-group">
-          <label for="vf-insurance">Insurance Documents <span class="optional">(If applicable)</span></label>
-          <div class="file-upload-wrapper">
-            <input type="file" id="vf-insurance" name="insurance" accept=".pdf,.jpg,.jpeg,.png">
-            <label for="vf-insurance" class="file-upload-label"><svg class="icon icon-upload" aria-hidden="true"><use href="icons.svg#upload"></use></svg> Choose File</label>
-            <span class="file-upload-name" id="vf-insurance-name">No file chosen</span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="vf-other">Other Supporting Documents <span class="optional">(Optional)</span></label>
-          <div class="file-upload-wrapper">
-            <input type="file" id="vf-other" name="other_documents" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
-            <label for="vf-other" class="file-upload-label"><svg class="icon icon-upload" aria-hidden="true"><use href="icons.svg#upload"></use></svg> Choose File</label>
-            <span class="file-upload-name" id="vf-other-name">No file chosen</span>
-          </div>
-        </div>
+      <div class="form-section-label-inner">Company Documents</div>
+      <div class="form-email-notice">
+        <svg class="icon icon-mail" aria-hidden="true"><use href="icons.svg#mail"></use></svg>
+        <p><strong>Send your documents by email.</strong> After submitting this form, email your company profile, CAC certificate and tax clearance, plus any relevant licenses, insurance or other supporting documents, to <a href="mailto:totalgloballogisticsltd@gmail.com?subject=Vendor%20Registration%20Documents">totalgloballogisticsltd<wbr>@gmail.com</a> with your company name in the subject line.</p>
       </div>
 
       <div class="form-section-label-inner">Additional Details</div>

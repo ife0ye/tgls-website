@@ -403,25 +403,7 @@
       update();
     })();
 
-    // ── File inputs: show the chosen file name ──
-    var MAX_FILE_BYTES = 5 * 1024 * 1024;
-    document.querySelectorAll('input[type="file"]').forEach(function (input) {
-      input.addEventListener('change', function () {
-        var nameEl = document.getElementById(input.id + '-name');
-        var has = input.files && input.files.length;
-        if (has && input.files[0].size > MAX_FILE_BYTES) {
-          input.setCustomValidity('Please choose a file under 5MB.');
-          if (nameEl) nameEl.textContent = input.files[0].name + ' (too large, max 5MB)';
-        } else {
-          input.setCustomValidity('');
-          if (nameEl) nameEl.textContent = has ? input.files[0].name : 'No file chosen';
-        }
-        var wrap = input.closest('.file-upload-wrapper');
-        if (wrap) wrap.classList.toggle('has-file', !!has);
-      });
-    });
-
-    // ── Form submission via Web3Forms, which delivers file uploads by email ──
+    // ── Form submission via Web3Forms (free plan: text fields only; documents are emailed separately) ──
     document.querySelectorAll('form[data-form-endpoint]').forEach(function (form) {
       var status = form.querySelector('.form-status');
       var submitBtn = form.querySelector('.btn-form-submit');
@@ -436,9 +418,10 @@
         e.preventDefault();
         if (!form.reportValidity()) return;
 
-        // Honeypot: a bot fills every field, including this hidden one; a human never sees it
+        // Honeypot: bots tick every box, including this hidden one; humans never see it.
+        // Web3Forms also rejects submissions with botcheck set, and leaves it out of emails.
         var honeypot = form.querySelector('.form-honeypot');
-        if (honeypot && honeypot.value) return;
+        if (honeypot && honeypot.checked) return;
 
         var accessKey = form.querySelector('input[name="access_key"]');
         if (!accessKey || !accessKey.value || accessKey.value === 'YOUR_WEB3FORMS_ACCESS_KEY') {
@@ -456,13 +439,8 @@
           .then(function (res) { return res.json(); })
           .then(function (data) {
             if (data.success) {
-              setStatus('success', 'Thank you, your submission has been received. Our team will be in touch shortly.');
+              setStatus('success', form.dataset.success || 'Thank you, your submission has been received. Our team will be in touch shortly.');
               form.reset();
-              form.querySelectorAll('.file-upload-wrapper').forEach(function (wrap) {
-                wrap.classList.remove('has-file');
-                var name = wrap.querySelector('.file-upload-name');
-                if (name) name.textContent = 'No file chosen';
-              });
             } else {
               setStatus('error', 'Something went wrong sending your submission. Please try again or email us directly.');
             }

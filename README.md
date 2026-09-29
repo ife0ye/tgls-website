@@ -6,18 +6,19 @@ build step and no third-party requests, deployed on Vercel.
 
 ## Setup required before launch
 
-The Careers and Vendors forms submit through [Web3Forms](https://web3forms.com). Both
-forms carry a placeholder access key (`YOUR_WEB3FORMS_ACCESS_KEY` in `careers.html` and
-`vendors.html`) and show a "not connected yet" message until a real key is set.
+The Careers and Vendors forms submit through [Web3Forms](https://web3forms.com) on its
+free plan (250 submissions a month). The free plan sends text fields only, so neither form
+has upload fields: each shows a notice asking people to email their CV or company
+documents to totalgloballogisticsltd@gmail.com, and the success message repeats it.
 
-**File attachments (CVs, CAC certificates, tax clearance, etc.) require a paid Web3Forms
-plan.** The free plan delivers the text fields only. Decide on a plan before launch, then:
+Both forms carry a placeholder access key and show a "not connected yet" message until
+a real key is set:
 
-1. Create the access key at [web3forms.com](https://web3forms.com) using the inbox that
+1. Create a free access key at [web3forms.com](https://web3forms.com) using the inbox that
    should receive submissions. The key is emailed to that inbox.
-2. Replace `YOUR_WEB3FORMS_ACCESS_KEY` in both forms with the real key. It is designed to
-   be public, so it's safe in the HTML.
-3. Submit each form once, with an attachment, and confirm the email and file arrive.
+2. Replace `YOUR_WEB3FORMS_ACCESS_KEY` in `careers.html` and `vendors.html` with the real
+   key. It is designed to be public, so it's safe in the HTML.
+3. Submit each form once and confirm the email arrives.
 
 ## Project layout
 
@@ -96,7 +97,7 @@ changed.
   and print the new hash in the console; paste that into `vercel.json`.
 - Don't add inline `style="…"` attributes or `<style>` blocks; the CSP blocks them. Put
   styles in `styles.css` (setting `element.style` from JavaScript is fine).
-- Forms have a honeypot field against bot spam, and file inputs reject files over 5MB.
+- Forms have a honeypot field against bot spam.
 - No secrets live in this repo. The Web3Forms access key is designed to be public;
   Web3Forms rate-limits and validates on their side.
 - `.vercelignore` keeps this README and `Images/_originals` off the live site.
